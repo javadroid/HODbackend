@@ -13,6 +13,11 @@ const userSchema = new Schema(
       required: [true, "Please provide a name"],
       trim: true,
     },
+    mname: {
+      type: String,
+      
+      trim: true,
+    },
     is_student: Boolean,
     type: {
       type: String,
@@ -42,8 +47,14 @@ const userSchema = new Schema(
     public_address: String,
     private_key: String,
     supervisors: {
-      major:String,
-      minor:String
+      major:{
+          type: String,
+          ref: "UserModel",
+        },
+      minor:{
+          type: String,
+          ref: "UserModel",
+        }
     },
     email: {
       type: String,

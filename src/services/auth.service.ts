@@ -45,7 +45,10 @@ export const createUser = async (req: any, res: any) => {
 
 export const getUserProfile = async (req: any, res: any) => {
  
-  const existingUser = await UserModel.findById(req.user.userId);
+  const existingUser = await UserModel.findById(req.user.userId) 
+  .populate('supervisors.major') // Populate the major supervisor field
+  .populate('supervisors.minor') // Populate the minor supervisor field
+  .exec();
 
   if (!existingUser) {
     throw Error("User not found.");
@@ -62,7 +65,10 @@ export const getUserProfile = async (req: any, res: any) => {
 };
 export const editUserProfile = async (req: any, res: any) => {
  
-  const editedUser = await UserModel.findByIdAndUpdate(req.user.userId,req.body,{new:true});
+  const editedUser = await UserModel.findByIdAndUpdate(req.user.userId,req.body,{new:true}) 
+  .populate('supervisors.major') // Populate the major supervisor field
+  .populate('supervisors.minor') // Populate the minor supervisor field
+  .exec();;
 
   if (!editedUser) {
     throw Error("User not found.");
