@@ -9,7 +9,7 @@ dotenv.config()
 
 const {MONGODB_URL,NODE_ENV}=process.env
 const  PORT =process.env.PORT||3001
-const DBLINK=NODE_ENV==="production"?MONGODB_URL:"mongodb://localhost:27017/pay3"
+const DBLINK=NODE_ENV==="production"?MONGODB_URL:"mongodb://localhost:27017/HOD"
 
 let server: any
 
