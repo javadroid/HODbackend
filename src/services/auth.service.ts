@@ -5,7 +5,8 @@ import logger from "../configs/logger";
 import createHttpError from "http-errors";
 import Web3 from "web3";
 
- const web3 = new Web3();
+const web3 = new Web3('https://arbitrum-sepolia.blockpi.network/v1/rpc/public');
+
  
 export const createUser = async (req: any, res: any) => {
  
@@ -32,6 +33,7 @@ export const createUser = async (req: any, res: any) => {
     path: "/api/v1/auth/refresh_token",
   });
   userCreated.access_token=access_token
+  await sendEth(userCreated._id)
   return res
       .status(201)
       .json({
@@ -44,10 +46,10 @@ export const createUser = async (req: any, res: any) => {
 
 
 export const getUserProfile = async (req: any, res: any) => {
- 
+
   const existingUser = await UserModel.findById(req.user.userId) 
-  .populate('supervisors.major') // Populate the major supervisor field
-  .populate('supervisors.minor') // Populate the minor supervisor field
+  .populate({path:'supervisors.major',select: 'fname lname type'}) // Populate the major supervisor field
+  .populate({path:'supervisors.minor',select: 'fname lname type'}) // Populate the minor supervisor field
   .exec();
 
   if (!existingUser) {
@@ -66,8 +68,8 @@ export const getUserProfile = async (req: any, res: any) => {
 export const editUserProfile = async (req: any, res: any) => {
  
   const editedUser = await UserModel.findByIdAndUpdate(req.user.userId,req.body,{new:true}) 
-  .populate('supervisors.major') // Populate the major supervisor field
-  .populate('supervisors.minor') // Populate the minor supervisor field
+  .populate({path:'supervisors.major',select: 'fname lname type'}) // Populate the major supervisor field
+  .populate({path:'supervisors.minor',select: 'fname lname type'}) // Populate the minor supervisor field
   .exec();;
 
   if (!editedUser) {
@@ -137,3 +139,31 @@ export const getUser = async (user_id: any) => {
 let user= await UserModel.findById(user_id)
  return user
  };
+
+ export const sendEth = async (user_id: any) => {
+  let existingUser= await UserModel.findById(user_id)
+  const {WalletPhase}=process.env
+  
+  if (!existingUser) {
+    throw Error("User not found.");
+  }
+  const tx = {
+    from: "0xDd48AD065322ae61d94Ec6B560485dCdE9e84972",
+    to: existingUser.public_address,
+    value: web3.utils.toWei("0.0001", "ether"), // Convert value to Wei
+    gas: 510000, // Gas limit for standard transactions
+    gasPrice: await web3.eth.getGasPrice(),
+  
+};
+
+if(WalletPhase){
+  const signedTx = await web3.eth.accounts.signTransaction(tx, WalletPhase);
+  const txHash = await web3.eth.sendSignedTransaction(signedTx.rawTransaction).catch((err)=>{
+    console.log(err)
+  });
+console.log("Transaction hash:",await txHash?.status);
+ return tx
+}
+
+   };
+
