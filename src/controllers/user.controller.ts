@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 
 import createHttpError from "http-errors";
-import { addWallet } from "../services/user.service";
 
 
 
@@ -20,14 +19,5 @@ export const searchUsers = async (req: any, res: any, next: any) => {
     }
 }
 
-export const addWalletToAccount= async (req: any, res: any, next: any) => {
-   try {
-  
-   const data=await addWallet(req.user.userId)
-   res.json(data)
-   } catch (error) {
-    next(error)
-   }
-    
-}
+
 
