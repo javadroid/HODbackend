@@ -43,6 +43,7 @@ const userSchema = new Schema(
     },
     department: String,
     faculty: String,
+    userID: String,
     phone: String,
     public_address: String,
     private_key: String,
