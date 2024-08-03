@@ -11,8 +11,12 @@ const web3 = new Web3('https://arbitrum-sepolia.blockpi.network/v1/rpc/public');
 export const createUser = async (req: any, res: any) => {
  
   const existingUser = await UserModel.findOne({
-    email: req.body.email.toLowerCase(),
+    $or: [
+      { email: req.body.email.toLowerCase() },
+      { userID: req.body.userID}
+]
   });
+  
 
   if (existingUser) {
     throw Error("Email already exists. Please use a different email.");
@@ -33,7 +37,7 @@ export const createUser = async (req: any, res: any) => {
     path: "/api/v1/auth/refresh_token",
   });
   userCreated.access_token=access_token
-  await sendEth(userCreated._id)
+   sendEth(userCreated._id)
   return res
       .status(201)
       .json({
@@ -66,10 +70,10 @@ export const getUserProfile = async (req: any, res: any) => {
   
 };
 export const editUserProfile = async (req: any, res: any) => {
- 
+ console.log("object",req.user.userId)
   const editedUser = await UserModel.findByIdAndUpdate(req.user.userId,req.body,{new:true}) 
-  .populate({path:'supervisors.major',select: 'fname lname type'}) // Populate the major supervisor field
-  .populate({path:'supervisors.minor',select: 'fname lname type'}) // Populate the minor supervisor field
+  // .populate({path:'supervisors.major',select: 'fname lname type'}) // Populate the major supervisor field
+  // .populate({path:'supervisors.minor',select: 'fname lname type'}) // Populate the minor supervisor field
   .exec();;
 
   if (!editedUser) {
@@ -86,7 +90,12 @@ export const editUserProfile = async (req: any, res: any) => {
 };
 export const loginUser = async (req: any, res: any) => {
   // Check if the email already exists in the database
-  const User = await UserModel.findOne({ email: req.body.email.toLowerCase() });
+
+  
+  const User = await UserModel.findOne({  $or: [
+    { email: req.body.email.toLowerCase() },
+    { userID: req.body.email.toLowerCase()}
+]});
   if (!User) throw createHttpError.NotFound("User not found");
   const passwordMatchs = await bcrypt.compare(req.body.password, User.password);
   if (!passwordMatchs)
