@@ -4,13 +4,18 @@ const projectSchema = new Schema(
   {
     name: String,
     status: String,
-    type: String,
+    type: String, 
+    student_id: {
+      type: String,
+      ref: "UserModel",
+    },
     session_id: {
       type: String,
       ref: "SessionModel",
     },
     proposal_defense: {
       status: String,
+      date:String,
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -18,6 +23,7 @@ const projectSchema = new Schema(
     },
     internal_defense: {
       status: String,
+      date:String,
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -25,12 +31,14 @@ const projectSchema = new Schema(
     },
     external_defense: {
       status: String,
+      date:String,
       vote_id: {
         type: String,
         ref: "ScoreModel",
       },
     },
     seminar3: {
+      date:String,
       status: String,
       vote_id: {
         type: String,
@@ -61,8 +69,13 @@ export const DocumentTokenModel =
 
 const commentSchema = new Schema(
   {
+    document_id: String, 
     project_id: String,
-    url: String,
+    lecturer_id:{
+      type: String,
+      ref: "UserModel",
+    },
+    comment: String,
   },
   {
     timestamps: true,

@@ -72,9 +72,9 @@ export const getUserProfile = async (req: any, res: any) => {
 export const editUserProfile = async (req: any, res: any) => {
  console.log("object",req.user.userId)
   const editedUser = await UserModel.findByIdAndUpdate(req.user.userId,req.body,{new:true}) 
-  // .populate({path:'supervisors.major',select: 'fname lname type'}) // Populate the major supervisor field
-  // .populate({path:'supervisors.minor',select: 'fname lname type'}) // Populate the minor supervisor field
-  .exec();;
+  .populate({path:'supervisors.major',select: 'fname lname type'}) // Populate the major supervisor field
+  .populate({path:'supervisors.minor',select: 'fname lname type'}) // Populate the minor supervisor field
+  .exec();
 
   if (!editedUser) {
     throw Error("User not found.");
