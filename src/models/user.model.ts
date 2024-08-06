@@ -22,24 +22,25 @@ const userSchema = new Schema(
     type: {
       type: String,
       required: true,
-      validate: {
-        validator: async function(this: any,value:any) {
-          if (this.is_student) {
-            // Validate type for students
-            return ["MSC", "PGD"].includes(value);
-          } else {
-            // Validate type for non-students
-            return [
-              "Faculty PG Coordinator",
-              "Departmental PG Coordinator",
-              "Dean",
-              "HOD",
-              "Dean PG Schools"
-            ].includes(value);
-          }
-        },
-        message: 'Invalid type value for the provided is_student status',
-      },
+      // validate: {
+      //   validator: async function(this: any,value:any) {
+      //     if (this.is_student) {
+      //       // Validate type for students
+      //       return ["MSC", "PGD"].includes(value);
+      //     } else {
+      //       // Validate type for non-students
+      //       return [
+      //         "Faculty PG Coordinator",
+      //         "Departmental PG Coordinator",
+      //         "Dean",
+      //         "HOD",
+      //         "Dean PG Schools",
+      //         "lecturer"
+      //       ].includes(value);
+      //     }
+      //   },
+      //   message: 'Invalid type value for the provided is_student status',
+      // },
     },
     department: String,
     faculty: String,
