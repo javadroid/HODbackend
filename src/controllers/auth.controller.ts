@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import createHttpError from "http-errors";
 import {
+  assignProjectSupervisor,
   createUser,
   editUserProfile,
   getUserProfile,
@@ -42,6 +43,14 @@ export const editProfile = async (req: any, res: any, next: any) => {
     next(error);
   }
 };
+export const assignSupervisor = async (req: any, res: any, next: any) => {
+  try {
+    await assignProjectSupervisor(req, res);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const logout = async (req: any, res: any, next: any) => {
   try {
     await logoutUser(req, res);

@@ -88,6 +88,34 @@ export const editUserProfile = async (req: any, res: any) => {
       });
   
 };
+
+export const assignProjectSupervisor = async (req: any, res: any) => {
+  console.log("object",req.body.userIds)
+
+  const UserIds=req.body.selectedStudent as any[]
+  for (let i = 0; i < UserIds.length; i++) {
+    
+    const editedUser = await UserModel.findByIdAndUpdate(UserIds[i]._id,{
+      supervisors: {
+        major:req.body.major,
+        minor:req.body.minor
+      }
+    },{new:true}) 
+    if (!editedUser) {
+      throw Error("User not found.");
+    }
+  }
+  
+ 
+  
+   return res
+       .status(201)
+       .json({
+        
+         msg: " Successful",
+       });
+   
+ };
 export const loginUser = async (req: any, res: any) => {
   // Check if the email already exists in the database
 
