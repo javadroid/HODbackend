@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middlewares/auth.mddleware'
-import { addComment, addDocument, addSession, addStudentProject, deleteProject, deleteSession, editProject, getAllUser, getCommect, getDocument, getStsupervisorProjectStudentudentProject, getStudentProject } from '../services/user.service'
+import { addComment, addDocument, addSession, addStudentProject, deleteProject, deleteSession, editProject, getAllUser, getCommect, getDocument, getsession, getStsupervisorProjectStudentudentProject, getStudentProject, session } from '../services/user.service'
 import { editProfile } from '../controllers/auth.controller'
 const  {all} = require('trim-request')
 const userRouter = express.Router()
@@ -20,6 +20,9 @@ userRouter.route("/supervisor-project-student").get(all , getStsupervisorProject
 
 userRouter.route("/document/:id").get(all , getDocument)
 userRouter.route("/document/:id").post(all , addDocument)
+
+userRouter.route("/session").post(all , session)
+userRouter.route("/session").get(all , getsession )
 
 userRouter.route("/comment").post(all , addComment)
 userRouter.route("/comment/:id").get(all , getCommect)

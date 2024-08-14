@@ -19,6 +19,7 @@ const userSchema = new Schema(
       trim: true,
     },
     is_student: Boolean,
+    temp_type:String,
     type: {
       type: String,
       required: true,
@@ -43,6 +44,8 @@ const userSchema = new Schema(
       // },
     },
     department: String,
+    section: String,
+    batch: String,
     faculty: String,
     userID: String,
     phone: String,

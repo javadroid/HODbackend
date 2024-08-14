@@ -4,7 +4,7 @@ const projectSchema = new Schema(
   {
     name: String,
     status: String,
-    type: String, 
+    type: String,
     student_id: {
       type: String,
       ref: "UserModel",
@@ -15,7 +15,7 @@ const projectSchema = new Schema(
     },
     proposal_defense: {
       status: String,
-      date:String,
+      date: String,
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -23,7 +23,7 @@ const projectSchema = new Schema(
     },
     internal_defense: {
       status: String,
-      date:String,
+      date: String,
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -31,14 +31,14 @@ const projectSchema = new Schema(
     },
     external_defense: {
       status: String,
-      date:String,
+      date: String,
       vote_id: {
         type: String,
         ref: "ScoreModel",
       },
     },
     seminar3: {
-      date:String,
+      date: String,
       status: String,
       vote_id: {
         type: String,
@@ -69,9 +69,9 @@ export const DocumentTokenModel =
 
 const commentSchema = new Schema(
   {
-    document_id: String, 
+    document_id: String,
     project_id: String,
-    lecturer_id:{
+    lecturer_id: {
       type: String,
       ref: "UserModel",
     },
@@ -87,7 +87,55 @@ export const CommentModel =
 
 const sessionSchema = new Schema(
   {
-    name: String,
+    session: String,
+    batch:String,
+    type:String,
+    internal_discussants:{
+      type: String,
+      ref: "UserModel",
+    },
+
+    spgs:{
+      type: String,
+      ref: "UserModel",
+    },
+    external_examiner:{
+      type: String,
+      ref: "UserModel",
+    },
+    proposal_defense: {
+      status: String,
+      date: String,
+      vote_id: {
+        type: String,
+        ref: "VoteModel",
+      },
+    },
+    internal_defense: {
+      status: String,
+      date: String,
+      vote_id: {
+        type: String,
+        ref: "VoteModel",
+      },
+    },
+    external_defense: {
+      status: String,
+      date: String,
+      vote_id: {
+        type: String,
+        ref: "ScoreModel",
+      },
+    },
+    seminar3: {
+      date: String,
+      status: String,
+      vote_id: {
+        type: String,
+        ref: "VoteModel",
+      },
+    },
+
   },
   {
     timestamps: true,

@@ -44,17 +44,15 @@ export const addStudentProject = async (req: any, res: any) => {
   return res.status(201).json(sessionCreated);
 };
 export const getStudentProject = async (req: any, res: any) => {
- 
-  let data
-  if( req.query.id){
-    data = await projectModel.find({student_id: req.query.id});
-  }else{
+  let data;
+  if (req.query.id) {
+    data = await projectModel.find({ student_id: req.query.id });
+  } else {
     data = await projectModel.find();
   }
 
   return res.status(200).json(data);
 };
-
 
 export const getDocument = async (req: any, res: any) => {
   const data = await DocumentTokenModel.find({
@@ -93,8 +91,8 @@ export const editProject = async (req: any, res: any) => {
 
 export const addDocument = async (req: any, res: any) => {
   console.log(req.body);
- 
- const added= await DocumentTokenModel.create({
+
+  const added = await DocumentTokenModel.create({
     ...req.body,
     project_id: req.params.id,
   });
@@ -102,29 +100,117 @@ export const addDocument = async (req: any, res: any) => {
   return res.status(201).json(added);
 };
 
-export const getStsupervisorProjectStudentudentProject = async (req: any, res: any) => {
+export const getStsupervisorProjectStudentudentProject = async (
+  req: any,
+  res: any
+) => {
   console.log(req.body);
- const {lecturer_id,}=req.query
- const added= await UserModel.find( {
-  $or: [
-    { "supervisors.major": lecturer_id },
-    { "supervisors.minor": lecturer_id}
-]
-});
-const dataq=[] as any[]
+  const { lecturer_id } = req.query;
+  const added = await UserModel.find({
+    $or: [
+      { "supervisors.major": lecturer_id },
+      { "supervisors.minor": lecturer_id },
+    ],
+  });
+  const dataq = [] as any[];
 
-for (let i = 0; i < added.length; i++) {
-  const element = added[i];
-  const projects= await projectModel.find({
-    student_id:element._id
-     })
-     
-     const data={...await element._doc}
-     data.project=projects[projects.length-1]
-     console.log(element.project)
+  for (let i = 0; i < added.length; i++) {
+    const element = added[i];
+    const projects = await projectModel.find({
+      student_id: element._id,
+    });
 
-     dataq.push(data)
-}
+    const data = { ...(await element._doc) };
+    data.project = projects[projects.length - 1];
+    console.log(element.project);
+
+    dataq.push(data);
+  }
 
   return res.status(201).json(dataq);
+};
+
+export const session = async (req: any, res: any) => {
+  const ses = await SessionModel.findOneAndUpdate(
+    {
+      session: req.body.session,
+      type: req.body.type,
+      batch: req.body.batch,
+    },
+    {
+      ...req.body,
+    }
+  );
+  if (!ses) {
+    const added = await SessionModel.create({
+      ...req.body,
+    });
+
+    return res.status(201).json(added);
+  }
+  return res.status(201).json(ses);
+};
+
+export const getsession = async (req: any, res: any) => {
+  const {lecturer_id,type,spgs,external}=req.query
+  let arr=[] as any[]
+
+  if(type=="Internal Discussant"){
+    let ses = await SessionModel.find(
+      {
+        '$or':[{internal_discussants: lecturer_id}]
+      }
+    )
+    arr=[...arr,...ses]
+  }
+  if(type=="SPGS"){
+    let ses = await SessionModel.find(
+      {
+        '$or':[{spgs:lecturer_id}]
+      }
+    )
+    arr=[...arr,...ses]
+  }
+
+  if(type=="Internal Discussant"){
+    let ses = await SessionModel.find(
+      {
+        '$or':[{external_examiner:lecturer_id}]
+      }
+    )
+    arr=[...arr,...ses]
+  }
+
+  let arrfinal=[]as any[]
+  for (let i = 0; i < arr.length; i++) {
+   
+    let ses = await UserModel.find({
+      batch:arr[i].batch,
+      section:arr[i].session,
+      is_student:true
+    })
+
+
+    const dataq = [] as any[];
+
+  for (let i = 0; i < ses.length; i++) {
+    const element = ses[i];
+    const projects = await projectModel.find({
+      student_id: element._id,
+    });
+
+    const data = { ...(await element._doc) };
+    data.project = projects[projects.length - 1];
+    console.log(element.project);
+    if(data.project){
+      dataq.push(data);
+    }
+
+    
+  }
+    arrfinal=[...arrfinal,...dataq]
+  }
+ 
+ 
+  return res.status(200).json(arrfinal);
 };
