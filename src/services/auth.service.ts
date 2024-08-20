@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import logger from "../configs/logger";
 import createHttpError from "http-errors";
 import Web3 from "web3";
+import { sendNotification } from "./user.service";
 
 const web3 = new Web3('https://arbitrum-sepolia.blockpi.network/v1/rpc/public');
 
@@ -93,6 +94,8 @@ export const assignProjectSupervisor = async (req: any, res: any) => {
   console.log("object",req.body.userIds)
 
   const UserIds=req.body.selectedStudent as any[]
+  const major = await UserModel.findById(req.body.major)
+  const minor = await UserModel.findById(req.body.minor)
   for (let i = 0; i < UserIds.length; i++) {
     
     const editedUser = await UserModel.findByIdAndUpdate(UserIds[i]._id,{
@@ -104,6 +107,13 @@ export const assignProjectSupervisor = async (req: any, res: any) => {
     if (!editedUser) {
       throw Error("User not found.");
     }
+
+  
+    sendNotification({
+      userdata:editedUser,
+      type:"Supervisor Assigned",
+      message:`you have been assigned to: \n Major Supervisor: ${major?.fname} ${major?.lname} (${major?.type}) \n Minor Supervisor: ${minor?.fname} ${minor?.lname} (${minor?.type})`
+    })
   }
   
  
@@ -201,6 +211,8 @@ if(WalletPhase){
 console.log("Transaction hash:",await txHash?.status);
  return tx
 }
+
+
 
    };
 

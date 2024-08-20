@@ -1,6 +1,28 @@
 import { Schema, model, models } from "mongoose";
 import bcrypt from "bcryptjs";
 import Web3 from "web3";
+
+const notificationSchema = new Schema(
+  {
+    userid: {
+      type: String,
+      ref: "UserModel",
+    },
+    type:String,
+    message:String,
+    otherid: {
+      id: String,
+      notification_type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const NotificationModel =
+  models.NotificationModel || model("NotificationModel", notificationSchema);
+
 const userSchema = new Schema(
   {
     lname: {
