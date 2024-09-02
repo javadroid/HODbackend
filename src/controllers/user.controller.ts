@@ -56,11 +56,11 @@ async function playgame(access: string, res: any) {
       }, 32000);
     })
     .catch((e) => {
-      console.log(e.message);
-      if (e.message === "Request failed with status code 401") {
+      console.log(e.response.data.message);
+      if (e.response.data.message === "not enough play passes") {
         res.send("Completed");
       } else {
-        playgame(access, res);
+        // playgame(access, res);
       }
     });
 }
