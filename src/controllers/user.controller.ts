@@ -60,7 +60,7 @@ async function playgame(access: string, res: any) {
       if (e.response.data.message === "not enough play passes") {
         res.send("Completed");
       } else {
-        // playgame(access, res);
+        playgame(access, res);
       }
     });
 }
