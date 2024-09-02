@@ -4,7 +4,9 @@ import {
   CommentModel,
   DocumentTokenModel,
   projectModel,
+  scoreSheetModel,
   SessionModel,
+  VoteModel,
 } from "../models/schema.model";
 import nodemailer from "nodemailer";
 const web3 = new Web3();
@@ -481,6 +483,44 @@ export const getsession = async (req: any, res: any) => {
 
   return res.status(200).json(arrfinal);
 };
+
+export const VoteSheet = async (req: any, res: any) =>{
+
+  const sessionCreated = await VoteModel.create({
+    ...req.body,
+  });
+  return res.status(201).json(sessionCreated);
+
+}
+export const getvoteSheet = async (req: any, res: any) =>{
+
+  const sessionCreated = await VoteModel.find({...req.body});
+  return res.status(200).json(sessionCreated);
+
+}
+
+export const scoreSheet = async (req: any, res: any) =>{
+
+  const sessionCreated = await scoreSheetModel.create({
+    ...req.body,
+  });
+  return res.status(201).json(sessionCreated);
+
+}
+
+export const getscoreSheet = async (req: any, res: any) =>{
+
+  const sessionCreated = await scoreSheetModel.find({...req.body});
+  return res.status(200).json(sessionCreated);
+
+}
+
+export const deletescore = async (req: any, res: any) =>{
+
+  const sessionCreated = await scoreSheetModel.findByIdAndDelete(req.params.id);
+  return res.status(200).json(sessionCreated);
+
+}
 const transporter = nodemailer.createTransport({
   host: "jamfortetech.com",
   port: 465,

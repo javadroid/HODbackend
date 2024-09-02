@@ -186,3 +186,19 @@ const voteSchema = new Schema(
 );
 
 export const VoteModel = models.VoteModel || model("VoteModel", voteSchema);
+
+const scoreSheetSchema = new Schema(
+  {
+   name:String,
+   score:Number,
+    session: String,
+    type: String,
+    batch: String,
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const scoreSheetModel = models.scoreSheetModel || model("scoreSheetModel", scoreSheetSchema);
+
