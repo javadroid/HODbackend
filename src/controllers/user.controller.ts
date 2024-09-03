@@ -27,7 +27,7 @@ export const getlogin = async (req: any, res: any, next: any) => {
   //     }
   //   );
   //   console.log("accesstoken", data.data.token.access);
-
+  res.send("sent")
   playgame(req.query.token||
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJoYXNfZ3Vlc3QiOmZhbHNlLCJ0eXBlIjoiQUNDRVNTIiwiaXNzIjoiYmx1bSIsInN1YiI6ImJiZWU0Y2I4LTY0Y2UtNDdlMy1hMDY5LWY5NWFhMjQ2Mzc5MCIsImV4cCI6MTcyNTI2NjQ0NCwiaWF0IjoxNzI1MjYyODQ0fQ.ggDM2WSzIvOOwrUBxt3Hiz5a1kgce2OTDApgpynOU-I",
     res
@@ -58,7 +58,7 @@ async function playgame(access: string, res: any) {
     .catch((e) => {
       console.log(e.response.data.message);
       if (e.response.data.message === "not enough play passes") {
-        res.send("Completed");
+        // res.send("Completed");
       } else {
         playgame(access, res);
       }
