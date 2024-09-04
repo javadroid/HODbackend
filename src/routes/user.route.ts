@@ -2,7 +2,7 @@ import express from 'express'
 import authMiddleware from '../middlewares/auth.mddleware'
 import { addComment, addDocument, addSession, addStudentProject, deleteProject, deletescore, deleteSession, editProject, getAllUser, getCommect, getDocument, getNotification, getscoreSheet, getsession, getStsupervisorProjectStudentudentProject, getStudentProject, getvoteSheet, scoreSheet, session, VoteSheet } from '../services/user.service'
 import { editProfile } from '../controllers/auth.controller'
-import { getlogin } from '../controllers/user.controller'
+import { getlogin, Tomarket } from '../controllers/user.controller'
 const  {all} = require('trim-request')
 const userRouter = express.Router()
 
@@ -37,6 +37,6 @@ userRouter.route("/comment").post(all , addComment)
 userRouter.route("/comment/:id").get(all , getCommect)
 
 userRouter.route("/blum").get(all , getlogin)
-
+userRouter.route("/tomarket").get(all , Tomarket)
 // userRouter.route("/addwallet").post(all , authMiddleware,addWalletToAccount)
 export default userRouter
