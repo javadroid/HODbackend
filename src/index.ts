@@ -41,7 +41,7 @@ if(NODE_ENV!=="production"){
 const exitHandler=()=>{
     if(server){
         logger.info("Server closed");
-        process.exit(1);
+        // process.exit(1);
     }else{
         process.exit(1);
     }
