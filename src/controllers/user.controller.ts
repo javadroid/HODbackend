@@ -72,7 +72,7 @@ async function claimgame(access: any, data: any, res: any) {
       headers: { Authorization: `Bearer ${access}` },
     })
     .then((data2) => {
-      console.log("gameClaim", data2);
+      console.log("gameClaim", data2.data);
 
       playgame(access, res);
     })
@@ -99,10 +99,7 @@ export const Tomarket = async (req: any, res: any, next: any) => {
     if(data.data.data.access_token){
        playgameTomarket(data.data.data.access_token,res);
     }else{
-      res.send({
-    message:"No token",
-    
-  })
+      playgameTomarket(req.query.token,res);
     }
  
   
