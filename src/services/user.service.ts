@@ -98,8 +98,7 @@ export const getCommect = async (req: any, res: any) => {
 export const getNotification = async (req: any, res: any) => {
   const data = await NotificationModel.find({
     userid: req.params.id,
-  })
-    
+  });
 
   return res.status(200).json(data);
 };
@@ -231,7 +230,7 @@ export const session = async (req: any, res: any) => {
   }
 
   if (internal_defense) {
-    let allarr=[] as any
+    let allarr = [] as any;
     const ind1 = await UserModel.findById(ses?.internal_discussants);
     const ind2 = await UserModel.findById(ses?.external_examiner);
     const ind3 = await UserModel.findById(ses?.spgs);
@@ -271,7 +270,7 @@ export const session = async (req: any, res: any) => {
       type: req.body.type,
       batch: req.body.batch,
     });
-    allarr=[...usersF,...users]
+    allarr = [...usersF, ...users];
 
     for (let i = 0; i < allarr.length; i++) {
       const element = allarr[i];
@@ -285,7 +284,7 @@ export const session = async (req: any, res: any) => {
     }
   }
   if (external_defense) {
-    let allarr=[] as any
+    let allarr = [] as any;
     const ind1 = await UserModel.findById(ses?.internal_discussants);
     const ind2 = await UserModel.findById(ses?.external_examiner);
     const ind3 = await UserModel.findById(ses?.spgs);
@@ -324,7 +323,7 @@ export const session = async (req: any, res: any) => {
     ];
     const usersF = await UserModel.find({ type: { $in: userTypes } });
 
-    allarr=[...usersF,...users]
+    allarr = [...usersF, ...users];
     for (let i = 0; i < allarr.length; i++) {
       const element = allarr[i];
       sendNotification({
@@ -337,7 +336,7 @@ export const session = async (req: any, res: any) => {
     }
   }
   if (proposal_defense) {
-    let allarr=[] as any
+    let allarr = [] as any;
     const ind1 = await UserModel.findById(ses?.internal_discussants);
     const ind2 = await UserModel.findById(ses?.external_examiner);
     const ind3 = await UserModel.findById(ses?.spgs);
@@ -375,11 +374,11 @@ export const session = async (req: any, res: any) => {
       batch: req.body.batch,
     });
     const usersF = await UserModel.find({ type: { $in: userTypes } });
-    allarr=[...users,...usersF]
-    console.log("dateddd",proposal_defense)
+    allarr = [...users, ...usersF];
+    console.log("dateddd", proposal_defense);
     for (let i = 0; i < allarr.length; i++) {
       const element = allarr[i];
-    
+
       sendNotification({
         userdata: element,
         type: "Date for Proposal Defense",
@@ -388,16 +387,13 @@ export const session = async (req: any, res: any) => {
         ).toDateString()}`,
       });
     }
-
-    
-    
   }
   if (!ses) {
     const added = await SessionModel.create({
       ...req.body,
     });
 
-     res.status(201).json(added);
+    res.status(201).json(added);
   }
 
   console.log({
@@ -408,7 +404,7 @@ export const session = async (req: any, res: any) => {
     internal_defense,
     proposal_defense,
   });
-   res.status(201).json(ses);
+  res.status(201).json(ses);
 };
 
 export const getsession = async (req: any, res: any) => {
@@ -440,18 +436,16 @@ export const getsession = async (req: any, res: any) => {
       .populate("spgs");
     arr = [...arr, ...ses];
   } else {
-    
     if (
       ["HOD", "Provost", "Dean", "Departmental PG Coordinator"].includes(
         uusd.type
       )
     ) {
-      
       let ses = await SessionModel.find()
         .populate("internal_discussants")
         .populate("external_examiner")
         .populate("spgs");
-        console.log("ses",ses)
+      console.log("ses", ses);
       arr = [...arr, ...ses];
     }
   }
@@ -486,43 +480,56 @@ export const getsession = async (req: any, res: any) => {
   return res.status(200).json(arrfinal);
 };
 
-export const VoteSheet = async (req: any, res: any) =>{
-
-  const sessionCreated = await VoteModel.create({
-    ...req.body,
-  });
-  return res.status(201).json(sessionCreated);
-
-}
-export const getvoteSheet = async (req: any, res: any) =>{
-
-  const sessionCreated = await VoteModel.find({...req.body});
+export const VoteSheet = async (req: any, res: any) => {
+  const body = req.body;
+  const id = body.id;
+  delete body.id;
+  
+  if (id) {
+    console.log("update",body);
+    const sessionCreated = await VoteModel.findByIdAndUpdate(
+      id,
+      {
+        ...body,
+      },
+      {
+        new: true,
+      }
+    );
+    return res.status(201).json(sessionCreated);
+  } else {
+    console.log("new",body);
+    const sessionCreated = await VoteModel.create({
+      ...body,
+    });
+    body.project=body.project+".status"
+  await  projectModel.findByIdAndUpdate(body.project_id,{
+    [body.project]:"completed"
+    })
+    return res.status(201).json(sessionCreated);
+  }
+};
+export const getvoteSheet = async (req: any, res: any) => {
+  const sessionCreated = await VoteModel.findOne({ ...req.body });
   return res.status(200).json(sessionCreated);
+};
 
-}
-
-export const scoreSheet = async (req: any, res: any) =>{
-
+export const scoreSheet = async (req: any, res: any) => {
   const sessionCreated = await scoreSheetModel.create({
     ...req.body,
   });
   return res.status(201).json(sessionCreated);
+};
 
-}
-
-export const getscoreSheet = async (req: any, res: any) =>{
-
-  const sessionCreated = await scoreSheetModel.find({...req.body});
+export const getscoreSheet = async (req: any, res: any) => {
+  const sessionCreated = await scoreSheetModel.find({ ...req.body });
   return res.status(200).json(sessionCreated);
+};
 
-}
-
-export const deletescore = async (req: any, res: any) =>{
-
+export const deletescore = async (req: any, res: any) => {
   const sessionCreated = await scoreSheetModel.findByIdAndDelete(req.params.id);
   return res.status(200).json(sessionCreated);
-
-}
+};
 const transporter = nodemailer.createTransport({
   host: "jamfortetech.com",
   port: 465,
