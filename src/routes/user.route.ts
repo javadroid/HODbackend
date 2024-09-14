@@ -26,7 +26,7 @@ userRouter.route("/session").post(all , session)
 userRouter.route("/session").get(all , getsession )
 
 userRouter.route("/vote").post(all , VoteSheet)
-userRouter.route("/vote").get(all , getvoteSheet )
+userRouter.route("/getvote").post(all , getvoteSheet )
 
 userRouter.route("/score").post(all , scoreSheet)
 userRouter.route("/getscore").post(all , getscoreSheet)

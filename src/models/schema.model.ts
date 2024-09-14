@@ -162,23 +162,18 @@ export const SetModel = models.SetModel || model("SetModel", setSchema);
 
 const voteSchema = new Schema(
   {
-    panel: [
-      {
-        staff: {
-          type: String,
-          ref: "UserModel",
-        },
-        vote: Boolean,
-      },
-    ],
-    session_id: {
+    scores:{},
+    session: String,
+    type: String,
+    batch: String,
+    student_id:{
       type: String,
-      ref: "SessionModel",
+      ref: "UserModel",
     },
-    set_id: {
+    lecturer_id:{
       type: String,
-      ref: "SetModel",
-    },
+      ref: "UserModel",  
+    }
   },
   {
     timestamps: true,

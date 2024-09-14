@@ -440,16 +440,18 @@ export const getsession = async (req: any, res: any) => {
       .populate("spgs");
     arr = [...arr, ...ses];
   } else {
+    
     if (
       ["HOD", "Provost", "Dean", "Departmental PG Coordinator"].includes(
         uusd.type
       )
     ) {
-      console.log("object");
+      
       let ses = await SessionModel.find()
         .populate("internal_discussants")
         .populate("external_examiner")
         .populate("spgs");
+        console.log("ses",ses)
       arr = [...arr, ...ses];
     }
   }
