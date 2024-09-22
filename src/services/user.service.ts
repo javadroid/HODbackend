@@ -433,8 +433,8 @@ export const getsession = async (req: any, res: any) => {
  
 
   let arrfinal = [] as any[];
- 
-    let ses = await UserModel.find({is_student:true,type});
+  let session = await SessionModel.findById(type);
+    let ses = await UserModel.find({is_student:true,type:session.type});
 
     const dataq = [] as any[];
 
@@ -499,7 +499,7 @@ export const getSessionName = async (req: any, res: any) => {
   return res.status(200).json(ssM);
 };
 export const createSessionName = async (req: any, res: any) => {
-  let ssM = await SessionModel.create({name:req.body.name})
+  let ssM = await SessionModel.create({...req.body})
   return res.status(200).json(ssM);
 };
 export const DeleteSessionName = async (req: any, res: any) => {

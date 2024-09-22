@@ -142,6 +142,7 @@ const sessionSchema = new Schema(
     seminar3: {
       date: String,
       status: String,
+      type: String,
       students:[String],
       vote_id: {
         type: String,
@@ -161,6 +162,7 @@ export const SessionModel =
 const setSchema = new Schema(
   {
     name: String,
+    type: String,
     session_id: {
       type: String,
       ref: "SessionModel",
