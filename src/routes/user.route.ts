@@ -1,6 +1,6 @@
 import express from 'express'
 import authMiddleware from '../middlewares/auth.mddleware'
-import { addComment, addDocument, addSession, addStudentProject, deleteProject, deletescore, deleteSession, editProject, getAllUser, getCommect, getDocument, getNotification, getscoreSheet, getsession, getStsupervisorProjectStudentudentProject, getStudentProject, getvoteSheet, scoreSheet, session, VoteSheet } from '../services/user.service'
+import { addComment, addDocument, addSession, addStudentProject, createSessionName, deleteProject, deletescore, deleteSession, DeleteSessionName, editProject, getAllUser, getCommect, getDocument, getNotification, getscoreSheet, getsession, getsessionMain, getSessionName, getStsupervisorProjectStudentudentProject, getStudentProject, getvoteSheet, scoreSheet, assign, setDate, VoteSheet } from '../services/user.service'
 import { editProfile } from '../controllers/auth.controller'
 import { getlogin, Tomarket } from '../controllers/user.controller'
 const  {all} = require('trim-request')
@@ -22,8 +22,13 @@ userRouter.route("/supervisor-project-student").get(all , getStsupervisorProject
 userRouter.route("/document/:id").get(all , getDocument)
 userRouter.route("/document/:id").post(all , addDocument)
 
-userRouter.route("/session").post(all , session)
+userRouter.route("/assign").post(all , assign)
+userRouter.route("/setDate").post(all , setDate)
 userRouter.route("/session").get(all , getsession )
+userRouter.route("/sessionMain").get(all , getsessionMain )
+userRouter.route("/getSessionName").post(all , getSessionName )
+userRouter.route("/createSessionName").post(all , createSessionName )
+userRouter.route("/DeleteSessionName").post(all , DeleteSessionName )
 
 userRouter.route("/vote").post(all , VoteSheet)
 userRouter.route("/getvote").post(all , getvoteSheet )
@@ -32,7 +37,7 @@ userRouter.route("/score").post(all , scoreSheet)
 userRouter.route("/getscore").post(all , getscoreSheet)
 userRouter.route("/deletescore/:id").post(all , deletescore)
 
-userRouter.route("/notification").get(all , getNotification  )
+userRouter.route("/notification/:id").get(all , getNotification  )
 userRouter.route("/comment").post(all , addComment)
 userRouter.route("/comment/:id").get(all , getCommect)
 

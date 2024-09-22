@@ -5,6 +5,7 @@ const projectSchema = new Schema(
     name: String,
     status: String,
     type: String,
+   
     student_id: {
       type: String,
       ref: "UserModel",
@@ -16,6 +17,7 @@ const projectSchema = new Schema(
     proposal_defense: {
       status: String,
       date: String,
+      score: Number,
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -24,6 +26,7 @@ const projectSchema = new Schema(
     internal_defense: {
       status: String,
       date: String,
+      score: Number,
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -32,6 +35,7 @@ const projectSchema = new Schema(
     external_defense: {
       status: String,
       date: String,
+      score: Number,
       vote_id: {
         type: String,
         ref: "ScoreModel",
@@ -39,6 +43,7 @@ const projectSchema = new Schema(
     },
     seminar3: {
       date: String,
+      score: Number,
       status: String,
       vote_id: {
         type: String,
@@ -90,11 +95,15 @@ const sessionSchema = new Schema(
     session: String,
     batch:String,
     type:String,
+    name:String,
+    faculty:String,
+    department:String,
+     status:String,
     internal_discussants:{
       type: String,
       ref: "UserModel",
     },
-
+   
     spgs:{
       type: String,
       ref: "UserModel",
@@ -106,6 +115,7 @@ const sessionSchema = new Schema(
     proposal_defense: {
       status: String,
       date: String,
+      students:[String],
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -114,6 +124,7 @@ const sessionSchema = new Schema(
     internal_defense: {
       status: String,
       date: String,
+      students:[String],
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -122,6 +133,7 @@ const sessionSchema = new Schema(
     external_defense: {
       status: String,
       date: String,
+      students:[String],
       vote_id: {
         type: String,
         ref: "ScoreModel",
@@ -130,6 +142,7 @@ const sessionSchema = new Schema(
     seminar3: {
       date: String,
       status: String,
+      students:[String],
       vote_id: {
         type: String,
         ref: "VoteModel",
@@ -165,6 +178,7 @@ const voteSchema = new Schema(
     scores:{},
     session: String,
     type: String,
+    
     batch: String,
     student_id:{
       type: String,
@@ -186,6 +200,8 @@ const scoreSheetSchema = new Schema(
   {
    name:String,
    score:Number,
+   faculty:String,
+    department:String,
     session: String,
     type: String,
     batch: String,

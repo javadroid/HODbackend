@@ -19,16 +19,11 @@ export const searchUsers = async (req: any, res: any, next: any) => {
 };
 
 export const getlogin = async (req: any, res: any, next: any) => {
-
-  const userAgent = req.headers['user-agent'];
+  const userAgent = req.headers["user-agent"];
   res.send({
-    message:"Playing Blum pls wait",
-    
-  })
-  playgame(req.query.token, res
-  );
-
-  
+    message: "Playing Blum pls wait",
+  });
+  playgame(req.query.token, res);
 };
 
 async function playgame(access: string, res: any) {
@@ -41,7 +36,7 @@ async function playgame(access: string, res: any) {
     .then((data) => {
       console.log("gameId", data.data.gameId);
       console.log("Playing Blum pls wait");
-     
+
       setTimeout((s: any) => {
         claimgame(
           access,
@@ -54,13 +49,12 @@ async function playgame(access: string, res: any) {
       }, 32000);
     })
     .catch((e) => {
-      console.log(e?.response?.data?.message||e.message);
+      console.log(e?.response?.data?.message || e.message);
       if (e?.response?.data?.message === "not enough play passes") {
         res.send(e?.response?.data?.message);
-      } else if(e?.response?.data?.message==="Invalid jwt token"){
+      } else if (e?.response?.data?.message === "Invalid jwt token") {
         res.send(e?.response?.data?.message);
-      }
-      else {
+      } else {
         playgame(access, res);
       }
     });
@@ -81,45 +75,44 @@ async function claimgame(access: any, data: any, res: any) {
     });
 }
 
-
 export const Tomarket = async (req: any, res: any, next: any) => {
- 
-  const userAgent = req.headers['user-agent'];
-    const data = await axios.post(
-      "https://api-web.tomarket.ai/tomarket-game/v1/user/login",
-      {
-        from:"",
-        init_data:"user=%7B%22id%22%3A5581602893%2C%22first_name%22%3A%22React.js%F0%9F%8D%85%20%F0%9F%A6%B4%F0%9F%86%93%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22reactjs32%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-2642908054693969306&chat_type=sender&auth_date=1725865417&hash=c267eeb88d97089c70c5ac3bb09b4ca97678fa32b24aa6373375d51cf75d36fe",
-        invite_code: "",
-        is_bot: false
-       }
-    );
-    console.log("accesstoken", data.data);
-
-    if(data.data.data.access_token){
-       playgameTomarket(data.data.data.access_token,res);
-    }else{
-      playgameTomarket(req.query.token,res);
+  const userAgent = req.headers["user-agent"];
+  const data = await axios.post(
+    "https://api-web.tomarket.ai/tomarket-game/v1/user/login",
+    {
+      from: "",
+      init_data:
+        "user=%7B%22id%22%3A5581602893%2C%22first_name%22%3A%22%F0%9F%90%88%E2%80%8D%E2%AC%9B%20%F0%9F%90%A4%20%2B%20React.js%F0%9F%8D%85%20%F0%9F%A6%B4%F0%9F%86%93%20%2B%20Gra-Gra%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22reactjs32%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&chat_instance=-2642908054693969306&chat_type=sender&auth_date=1726731627&hash=28c0329afea0b72a9f03ab706d74bbf7f0251ff7701176c5c788334bc173f9c0",
+        
+      invite_code: "",
+      is_bot: false,
     }
- 
-  
-  
+  );
+  console.log("accesstoken", data.data);
 
+  if (data.data.data.access_token) {
+    playgameTomarket(data.data.data.access_token, res);
+  } else {
+    playgameTomarket(req.query.token, res);
+  }
 };
 
 async function playgameTomarket(access: string, res: any) {
   axios
     .post(
       "https://api-web.tomarket.ai/tomarket-game/v1/game/play",
-      {game_id: "59bcd12e-04e2-404c-a172-311a0084587d"},
+      { game_id: "59bcd12e-04e2-404c-a172-311a0084587d" },
       { headers: { Authorization: `${access}` } }
     )
     .then((data) => {
       console.log("gameId", data.data);
-      if (data?.data?.message === "Invalid Token."||data?.data?.message === "no chance") {
-      return  res.send(data.data.message);
+      if (
+        data?.data?.message === "Invalid Token." ||
+        data?.data?.message === "no chance"
+      ) {
+        return res.send(data.data.message);
       }
-     
+
       console.log("Playing tomarket pls wait");
       setTimeout((s: any) => {
         claimgameTomarket(
@@ -137,10 +130,9 @@ async function playgameTomarket(access: string, res: any) {
       console.log(e.message);
       if (e?.response?.data?.message === "not enough play passes") {
         res.send(e?.response?.data?.message);
-      } else if(e?.response?.data?.message==="Invalid jwt token"){
+      } else if (e?.response?.data?.message === "Invalid jwt token") {
         res.send(e?.response?.data?.message);
-      }
-      else {
+      } else {
         playgameTomarket(access, res);
       }
     });
@@ -148,12 +140,16 @@ async function playgameTomarket(access: string, res: any) {
 
 async function claimgameTomarket(access: any, data: any, res: any) {
   axios
-    .post("https://api-web.tomarket.ai/tomarket-game/v1/game/claim", {
-      game_id: "59bcd12e-04e2-404c-a172-311a0084587d",
-      points: getRandomNumber(570, 600)
-    }, {
-      headers: { Authorization: `${access}` },
-    })
+    .post(
+      "https://api-web.tomarket.ai/tomarket-game/v1/game/claim",
+      {
+        game_id: "59bcd12e-04e2-404c-a172-311a0084587d",
+        points: getRandomNumber(570, 600),
+      },
+      {
+        headers: { Authorization: `${access}` },
+      }
+    )
     .then((data2) => {
       console.log("gameClaim", data2.data);
 
@@ -162,13 +158,12 @@ async function claimgameTomarket(access: any, data: any, res: any) {
     .catch((e) => {
       if (e?.response?.data?.message === "Invalid jwt token") {
         res.send(e?.response?.data?.message);
-      }else if (e?.response?.data?.message === "Token is not pass") {
+      } else if (e?.response?.data?.message === "Token is not pass") {
         res.send(e?.response?.data?.message);
-      }else{
-        console.log(e)
+      } else {
+        console.log(e);
         claimgameTomarket(access, data, res);
       }
-      
     });
 }
 function getRandomNumber(min: number, max: number) {

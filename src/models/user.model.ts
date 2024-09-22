@@ -10,6 +10,9 @@ const notificationSchema = new Schema(
     },
     type:String,
     message:String,
+    viewid:String,
+    faculty:String,
+    department:String,
     otherid: {
       id: String,
       notification_type: String,
