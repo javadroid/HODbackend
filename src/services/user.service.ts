@@ -205,7 +205,8 @@ export const assign = async (req: any, res: any) => {
     },
     { new: true }
   );
-  if(defense?.status==="done"){
+  console.log("defense?.status",defense)
+  if(req.body[defense].status==="done"){
    for (let i = 0; i < ses[defense].students.length; i++) {
     const element = ses[defense].students[i];
     
@@ -255,6 +256,7 @@ export const assign = async (req: any, res: any) => {
 
 
     const up=defense+".score"
+    console.log("defense",defense)
     const prj=await projectModel.findOneAndUpdate({student_id:element},{
       status:defense.split("_")[0]+"_approved",
       [up]:averageScore
