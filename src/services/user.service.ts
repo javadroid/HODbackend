@@ -256,6 +256,7 @@ export const assign = async (req: any, res: any) => {
 
     const up=defense+".score"
     const prj=await projectModel.findOneAndUpdate({student_id:element},{
+      status:defense.split("_")[0]+"_approved",
       [up]:averageScore
     })
   } 
@@ -352,6 +353,12 @@ export const setDate = async (req: any, res: any) => {
     ];
     const usersF = await UserModel.find({ type: { $in: userTypes } });
 
+    for (let i = 0; i < usersF.length; i++) {
+      const element = usersF[i];
+      const usersFmajor = await UserModel.findById(element.supervisors.major);
+      const usersFminor = await UserModel.findById(element.supervisors.minor);
+      allarr = [...allarr, usersFminor,usersFmajor];
+    }
     const users = await UserModel.find({
       _id: { $in: internal_defense.students },
     });
@@ -415,7 +422,12 @@ export const setDate = async (req: any, res: any) => {
       "Dean",
     ];
     const usersF = await UserModel.find({ type: { $in: userTypes } });
-
+    for (let i = 0; i < usersF.length; i++) {
+      const element = usersF[i];
+      const usersFmajor = await UserModel.findById(element.supervisors.major);
+      const usersFminor = await UserModel.findById(element.supervisors.minor);
+      allarr = [...allarr, usersFminor,usersFmajor];
+    }
     allarr = [...usersF, ...users];
     for (let i = 0; i < allarr.length; i++) {
       const element = allarr[i];
@@ -473,6 +485,12 @@ export const setDate = async (req: any, res: any) => {
       _id: { $in: proposal_defense?.students },
     });
     const usersF = await UserModel.find({ type: { $in: userTypes } });
+    for (let i = 0; i < usersF.length; i++) {
+      const element = usersF[i];
+      const usersFmajor = await UserModel.findById(element.supervisors.major);
+      const usersFminor = await UserModel.findById(element.supervisors.minor);
+      allarr = [...allarr, usersFminor,usersFmajor];
+    }
     allarr = [...users, ...usersF];
 
     console.log("dateddd", ses._id);
@@ -522,7 +540,7 @@ export const getsession = async (req: any, res: any) => {
   }
   arrfinal = [...arrfinal, ...dataq];
 
-  return res.status(200).json(arrfinal);
+  return res.status(200).json([session.type,arrfinal]);
 };
 
 export const getsessionMain = async (req: any, res: any) => {
