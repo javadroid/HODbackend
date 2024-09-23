@@ -167,6 +167,7 @@ export const getStsupervisorProjectStudentudentProject = async (
       { "supervisors.minor": lecturer_id },
     ],
   });
+  
   const dataq = [] as any[];
 
   for (let i = 0; i < added.length; i++) {
@@ -204,7 +205,7 @@ export const assign = async (req: any, res: any) => {
     },
     { new: true }
   );
-  if(defense.status==="done"){
+  if(defense?.status==="done"){
    for (let i = 0; i < ses[defense].students.length; i++) {
     const element = ses[defense].students[i];
     
