@@ -180,7 +180,7 @@ const voteSchema = new Schema(
     scores:{},
     session: String,
     type: String,
-    
+    defense:String,
     batch: String,
     student_id:{
       type: String,
