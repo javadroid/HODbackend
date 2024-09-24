@@ -206,7 +206,7 @@ export const assign = async (req: any, res: any) => {
     { new: true }
   );
   console.log("defense?.status",defense)
-  if(req.body[defense].status==="done"){
+  if(req.body[defense]?.status==="done"){
    for (let i = 0; i < ses[defense].students.length; i++) {
     const element = ses[defense].students[i];
     
