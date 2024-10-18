@@ -8,6 +8,7 @@
     "dev": "cross-env NODE_ENV=development nodemon  src/index.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@mycrypto/eth-scan": "^3.5.3",
     "@types/nodemailer": "^6.4.15",
     "axios": "^1.7.7",

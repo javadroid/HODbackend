@@ -1,7 +1,7 @@
 import UserModel from "../models/user.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import createHttpError from "http-errors";
 import axios from "axios";
 
@@ -20,21 +20,19 @@ export const searchUsers = async (req: any, res: any, next: any) => {
 
 export const getlogin = async (req: any, res: any, next: any) => {
   const userAgent = req.headers["user-agent"];
-  res.send({
-    message: "Playing Blum pls wait",
-  });
+ 
   playgame(req.query.token, res);
 };
 
 async function playgame(access: string, res: any) {
   axios
-    .post(
-      "https://game-domain.blum.codes/api/v1/game/play",
-      {},
-      { headers: { Authorization: `Bearer ${access}` } }
+    .get(
+      "https://game-domain.blum.codes/api/v2/game/play",
+      
+      { headers: { Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJoYXNfZ3Vlc3QiOmZhbHNlLCJ0eXBlIjoiQUNDRVNTIiwiaXNzIjoiYmx1bSIsInN1YiI6ImJiZWU0Y2I4LTY0Y2UtNDdlMy1hMDY5LWY5NWFhMjQ2Mzc5MCIsImV4cCI6MTcyODkwMDc5NiwiaWF0IjoxNzI4ODk3MTk2fQ.s-rIVuAwadD40N8f1cbxxsY4ab-Bqmcq5MP2PrDqnPo"}` } }
     )
     .then((data) => {
-      console.log("gameId", data.data.gameId);
+      console.log("gameId", data.data);
       console.log("Playing Blum pls wait");
 
       setTimeout((s: any) => {
@@ -102,7 +100,7 @@ async function playgameTomarket(access: string, res: any) {
     .post(
       "https://api-web.tomarket.ai/tomarket-game/v1/game/play",
       { game_id: "59bcd12e-04e2-404c-a172-311a0084587d" },
-      { headers: { Authorization: `${access}` } }
+      { headers: { Authorization: `${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlblVzZXIiOnsidGVsX2lkIjoiNTU4MTYwMjg5MyIsImlkIjo5NTgxMDMsImZuIjoiUmVhY3QuanMiLCJsbiI6IiJ9LCJpYXQiOjE3Mjg4OTQ4NTksImV4cCI6MTczMTQ4Njg1OX0.zw5V3DS0OCyik4xODa8ld_9HX9cdey90B7v006vmfJs"}` } }
     )
     .then((data) => {
       console.log("gameId", data.data);
@@ -168,4 +166,39 @@ async function claimgameTomarket(access: any, data: any, res: any) {
 }
 function getRandomNumber(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+export async function askGoogleAi( req: any, res: any) {
+
+  const API_KEY = "AIzaSyBXoXXRqVoXnn" + "KEfsZqRz0omkQNUmLsC0s";
+  const genAI = new GoogleGenerativeAI(API_KEY);
+  
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const resp=await model.generateContent(req.body.message||`
+   search and scrape blog posts or use any source Create a LinkedIn post for me, The post should focus on the latest technology updates or quick tutorials related to software or crypto development using little Text Format pick one of them.
+
+Key Points to Include:
+Latest Updates:
+
+Discuss a recent update in a popular library or framework (e.g., React, Angular, Node.js) and its benefits.
+Explain how to implement the update in a project and any potential downsides to be aware of.
+Quick Tutorial: (if needed)
+
+Provide a brief tutorial on a relevant topic, such as:
+Building AI chatbots and automation.
+Implementing and using AI APIs.
+Developing decentralized applications (dApps) in Web3.
+Include practical examples or code snippets to illustrate the tutorial.
+Engagement:
+
+Encourage fellow developers to share their experiences with the latest technologies or ask questions about the tutorial.
+Invite discussion on how these updates and techniques can improve development practices.
+Tone:
+Informative and engaging, aimed at fostering knowledge-sharing within the tech community.
+
+Please provide all information need 
+    `)
+res.send(resp.response.text())
+    
 }

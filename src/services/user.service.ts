@@ -193,10 +193,7 @@ export const assign = async (req: any, res: any) => {
     spgs,
     id,
     type,
-    defense,
-    external_defense,
-    internal_defense,
-    proposal_defense,
+    defense
   } = req.body;
   const ses = await SessionModel.findByIdAndUpdate(
     id,
