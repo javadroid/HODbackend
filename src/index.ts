@@ -21,7 +21,7 @@ mongoose.connect(DBLINK!).then(()=>{
     const io =new Server(server,{
         pingTimeout:60000,
         cors:{
-            origin:["http://localhost:3001","http://localhost:5173","https://wa-frontend-4fcn.onrender.com"]
+            origin:["https://project1-w4sy.onrender.com","http://localhost:3001","http://localhost:5173","https://wa-frontend-4fcn.onrender.com"]
         }
     })
     io.on("connection",(socket)=>{
