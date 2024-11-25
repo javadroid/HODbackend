@@ -20,7 +20,7 @@ export const searchUsers = async (req: any, res: any, next: any) => {
 
 export const getlogin = async (req: any, res: any, next: any) => {
   const userAgent = req.headers["user-agent"];
- 
+  
   playgame(req.query.token, res);
 };
 
