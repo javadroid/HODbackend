@@ -44,6 +44,13 @@ export const addComment = async (req: any, res: any) => {
 
 export const addStudentProject = async (req: any, res: any) => {
   console.log(req.body);
+  const isCreated = await projectModel.findOne({
+    student_id: req.body.student_id,
+  });
+
+  if(isCreated){
+    return res.status(400).json("Project already submitted");
+  }
   const sessionCreated = await projectModel.create({
     ...req.body,
   });
