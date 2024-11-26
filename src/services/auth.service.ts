@@ -91,7 +91,7 @@ export const editUserProfile = async (req: any, res: any) => {
 };
 export const deleteUserProfile = async (req: any, res: any) => {
   
-   const editedUser = await UserModel.findByIdAndDelete(req.body.id)
+   const editedUser = await UserModel.findByIdAndDelete(req.params.id)
    .exec();
  
    if (!editedUser) {
