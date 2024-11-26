@@ -1,10 +1,13 @@
 import express from 'express'
 import { assignSupervisor, editProfile, getProfile, login, logout, refresh_token, register } from '../controllers/auth.controller'
 import authMiddleware from '../middlewares/auth.mddleware'
+import { deleteUserProfile } from '../services/auth.service'
 const  {all} = require('trim-request')
 const authrouter = express.Router()
 
 authrouter.route("/register").post(all ,register)
+
+authrouter.route("/profile").delete(all ,deleteUserProfile)
 authrouter.route("/login").post(all,login)
 authrouter.route("/profile").get(all,authMiddleware,getProfile)
 authrouter.route("/profile").post(all,authMiddleware,editProfile)

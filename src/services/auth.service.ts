@@ -89,7 +89,23 @@ export const editUserProfile = async (req: any, res: any) => {
       });
   
 };
-
+export const deleteUserProfile = async (req: any, res: any) => {
+  
+   const editedUser = await UserModel.findByIdAndDelete(req.body.id)
+   .exec();
+ 
+   if (!editedUser) {
+     throw Error("User not found.");
+   }
+   return res
+       .status(201)
+       .json({
+         user_data: editedUser,
+         auth: true,
+         msg: "Deleted Successful",
+       });
+   
+ };
 export const assignProjectSupervisor = async (req: any, res: any) => {
   console.log("object",req.body.userIds)
 
