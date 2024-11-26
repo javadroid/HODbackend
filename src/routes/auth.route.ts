@@ -7,7 +7,7 @@ const authrouter = express.Router()
 
 authrouter.route("/register").post(all ,register)
 
-authrouter.route("/profile").delete(all ,deleteUserProfile)
+authrouter.route("/profile/:id").delete(all ,deleteUserProfile)
 authrouter.route("/login").post(all,login)
 authrouter.route("/profile").get(all,authMiddleware,getProfile)
 authrouter.route("/profile").post(all,authMiddleware,editProfile)
