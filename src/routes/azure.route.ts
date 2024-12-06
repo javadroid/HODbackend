@@ -8,7 +8,7 @@ const  {all} = require('trim-request')
 const azureRouter = express.Router()
 
 azureRouter.route("/getAccounts").get(all , GetAccounts)
-azureRouter.route("/getAccount").get(all , GetAccount)
+azureRouter.route("/getAccount/:id").get(all , GetAccount)
 
 azureRouter.route("/account/:id").delete(all , DeleteAccount)
 azureRouter.route("/account/:id").put(all , EditAccount)
