@@ -43,6 +43,7 @@ export const createUser = async (req: any, res: any) => {
       .status(201)
       .json({
         user_data: userCreated,
+        access_token,
         auth: true,
         msg: "Registration Successful",
       });
