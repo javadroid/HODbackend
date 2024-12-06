@@ -215,3 +215,52 @@ const scoreSheetSchema = new Schema(
 
 export const scoreSheetModel = models.scoreSheetModel || model("scoreSheetModel", scoreSheetSchema);
 
+
+
+const AccountsSchema = new Schema(
+  {
+   linkedIn:{
+    email:String,
+    password:String
+   },
+   userid:{
+    type:String,
+    ref:"UserModel"
+  },
+   azure:{
+    email:String,
+    password:String,
+    fa:String,
+    credit:String
+   },
+   status:String,
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const AccountsModel = models.AccountsModel || model("AccountsModel", AccountsSchema);
+
+const HistoryZSchema = new Schema(
+  {
+   
+    amount:String,
+    date:String,
+  
+   
+    userid:{
+      type:String,
+      ref:"UserModel"
+    },
+    
+    
+
+   status:String,
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const HistoryZModel = models.HistoryZModel || model("HistoryZModel", HistoryZSchema);

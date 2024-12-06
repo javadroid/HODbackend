@@ -74,6 +74,12 @@ const userSchema = new Schema(
     faculty: String,
     userID: String,
     phone: String,
+
+    bankname: String,
+    bankaccount: String,
+    accountname: String,
+
+
     public_address: String,
     private_key: String,
     supervisors: {
