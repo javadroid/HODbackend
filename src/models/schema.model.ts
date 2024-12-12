@@ -256,7 +256,7 @@ const HistoryZSchema = new Schema(
     
     
 
-   status:String,
+   status:{type:String,default:"pending"},
   },
   {
     timestamps: true,
