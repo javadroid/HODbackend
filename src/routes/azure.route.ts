@@ -17,7 +17,7 @@ azureRouter.route("/account").post(all , AddAccount)
 
 
 azureRouter.route("/getHistorys").get(all , GetHistorys)
-azureRouter.route("/getHistory").get(all , GetHistory)
+azureRouter.route("/getHistory/:id").get(all , GetHistory)
 
 azureRouter.route("/history/:id").delete(all , DeleteHistory)
 azureRouter.route("/history/:id").put(all , EditHistory)
