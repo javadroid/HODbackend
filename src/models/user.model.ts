@@ -28,6 +28,11 @@ export const NotificationModel =
 
 const userSchema = new Schema(
   {
+    walletBalance:{
+      type: Number,
+      default: 0,
+    }, 
+    access_token:String,
     lname: {
       type: String,
       required: [true, "Please provide a name"],
